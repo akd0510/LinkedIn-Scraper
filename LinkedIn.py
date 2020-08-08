@@ -8,6 +8,7 @@ import time
 import re
 import pyautogui
 import mouse
+import sys
 
 full_name = []
 first_name = []
@@ -23,7 +24,8 @@ time_of_qualification = []
 list_ = []
 
 def linkedin():
-    driver = webdriver.Chrome("E:/project/Uploader_Downloader/chromedriver")
+    counter = 0
+    driver = webdriver.Chrome("E:/project/LinkedIn/chromedriver")
     login = driver.get("https://www.linkedin.com/uas/login?fromSignIn=true&trk=cold_join_sign_in")
     time.sleep(1)
     user_id = driver.find_element_by_id("username").send_keys("akshaydileep@karunya.edu.in")
@@ -38,7 +40,7 @@ def linkedin():
         driver.find_element_by_id("email-pin-submit-button").click()
     time.sleep(3)
     google = driver.get("https://www.google.com/")
-    filters = 'site:Linkedin.com "Bharti AXA Life Insurance" AND "India" AND "HR"'
+    filters = 'site:Linkedin.com "Nippon India Mutual Fund" AND "India" AND "@gmail.com"'
     driver.find_element_by_name('q').send_keys(filters)
     time.sleep(2)
     driver.find_element_by_xpath('//*[@id="tsf"]/div[2]/div[1]/div[3]/center/input[1]').click()
@@ -141,21 +143,27 @@ def linkedin():
                     list_.clear()
                 except:
                     try:
+                        counter = counter + 1
                         sheet = pd.DataFrame([full_name,first_name,last_name,working,profile_page,position,years_of_experience,years_of_experience_at_that_pos,institute,qualification,time_of_qualification])
                         sheet.to_csv('FINAL Sheet.csv')
-                        quit()
+                        print("Excel sheet is ready... 1")
                     except:
-                        print("File is open please close the file")
+                        counter = counter + 1
+                        print("File is open please close the file 2")
                         input("Done? ")
                         sheet = pd.DataFrame([full_name,first_name,last_name,working,profile_page,position,years_of_experience,years_of_experience_at_that_pos,institute,qualification,time_of_qualification])
                         sheet.to_csv('FINAL Sheet.csv')
-                        quit()
+                        print("Excel sheet is ready... 2")
     try:
-        sheet = pd.DataFrame([full_name,first_name,last_name,working,profile_page,position,years_of_experience,years_of_experience_at_that_pos,institute,qualification,time_of_qualification])
-        sheet.to_csv('FINAL Sheet.csv')
+        if counter == 0:
+            sheet = pd.DataFrame([full_name,first_name,last_name,working,profile_page,position,years_of_experience,years_of_experience_at_that_pos,institute,qualification,time_of_qualification])
+            sheet.to_csv('FINAL Sheet.csv')
+            print("Excel sheet is ready...")
     except:
-        print("File is open please close the file")
-        input("Done? ")
-        sheet = pd.DataFrame([full_name,first_name,last_name,working,profile_page,position,years_of_experience,years_of_experience_at_that_pos,institute,qualification,time_of_qualification])
-        sheet.to_csv('FINAL Sheet.csv')
+        if counter == 0:
+            print("File is open please close the file")
+            input("Done? ")
+            sheet = pd.DataFrame([full_name,first_name,last_name,working,profile_page,position,years_of_experience,years_of_experience_at_that_pos,institute,qualification,time_of_qualification])
+            sheet.to_csv('FINAL Sheet.csv')
+            print("Excel sheet is ready...")
 linkedin()
